@@ -12,8 +12,8 @@ interface ButtonProps {
 }
 
 const variantStyles = {
-  primary: 'bg-purple-600 text-white',
-  secondary: 'bg-purple-300 text-purple-600'
+  primary: 'bg-[#1034A6] text-[#BCD2E8]',
+  secondary: 'bg-[#BCD2E8] text-[#1034A6]'
 }
 
 const sizeStyles = {
@@ -22,7 +22,7 @@ const sizeStyles = {
   lg: 'px-6 py-3 text-lg'
 }
 
-const defaultStyles = 'rounded-md flex items-center px-2 py-2 font-light'
+const defaultStyles = 'rounded-md flex items-center px-4 py-3 font-normal'
 
 // The Button functional component
 export function Button({ variant, text, startIcon, onClick, fullWidth, loading }: ButtonProps) {

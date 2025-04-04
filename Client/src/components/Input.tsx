@@ -1,20 +1,30 @@
-// Defining the InputProps interface to specify the types for the props
-interface InputProps { 
-    placeholder: string; // Placeholder text for the input field
-    reference?: any // Optional reference to the input field for accessing its value or methods
-}
-
-// Input component definition
-export function Input({placeholder, reference}: InputProps) {
+interface InputProps {
+    placeholder: string;
+    reference?: any;
+    multiline?: boolean; // ✅ Optional prop for description field
+  }
+  
+  export function Input({ placeholder, reference, multiline = false }: InputProps) {
+    const baseClasses =
+      "w-full px-4 py-3 border border-gray-300 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-800";
+  
     return (
-        <div>
-            {/* Input field with the provided placeholder and reference */}
-            <input 
-                ref={reference} // Attaching the reference to the input field
-                placeholder={placeholder} // Setting the placeholder text for the input field
-                type={"text"} // Defining the input type as text
-                className="px-4 py-2 border rounded m-2" // Tailwind CSS classes for styling the input field
-            />
-        </div>
+      <div className="w-full">
+        {multiline ? (
+          <textarea
+            ref={reference}
+            placeholder={placeholder}
+            className={`${baseClasses} min-h-[120px] resize-none`}
+          />
+        ) : (
+          <input
+            ref={reference}
+            placeholder={placeholder}
+            type="text"
+            className={baseClasses}
+          />
+        )}
+      </div>
     );
-}
+  }
+  

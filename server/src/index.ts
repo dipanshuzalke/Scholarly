@@ -5,6 +5,7 @@ import { JWT_PASSWORD } from './config'
 import { userMiddleware } from './middleware'
 import { random } from './utils'
 import cors from 'cors'
+import mongoose from 'mongoose'
 
 const app = express()
 app.use(express.json())
@@ -60,15 +61,15 @@ app.post('/api/v1/signin', async (req, res) => {
 app.post('/api/v1/content', userMiddleware, async (req, res) => {
   const title = req.body.title
   const link = req.body.link
-  const tags = req.body.tags
   const type = req.body.type
+  const description = req.body.description
 
   try {
     await ContentModel.create({
       title,
       link,
-      tags: [],
       type,
+      description,
       // @ts-ignore
       userId: req.userId
     })
@@ -82,16 +83,40 @@ app.post('/api/v1/content', userMiddleware, async (req, res) => {
   }
 })
 
+// app.get('/api/v1/content', userMiddleware, async (req, res) => {
+//   // @ts-ignore
+//   const userId = req.userId
+//   const content = await ContentModel.find({
+//     userId
+//   }).populate('userId', 'username')
+//   res.json({
+//     content
+//   })
+// })
+
 app.get('/api/v1/content', userMiddleware, async (req, res) => {
-  // @ts-ignore
-  const userId = req.userId
-  const content = await ContentModel.find({
-    userId
-  }).populate('userId', 'username')
-  res.json({
-    content
-  })
-})
+  try {
+    const { type } = req.query;
+
+    // Use a flexible object type to allow adding keys dynamically
+    const query: Record<string, any> = {
+      // @ts-ignore
+      userId: req.userId
+    };
+
+    if (type) {
+      query.type = type; // ✅ No TS error now
+    }
+
+    const content = await ContentModel.find(query);
+
+    res.json({ content });
+  } catch (error) {
+    console.error("❌ Error fetching content:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 app.delete('/api/v1/content', userMiddleware, (req, res) => {
   const contentId = req.body.contentId

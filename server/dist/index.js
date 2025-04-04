@@ -65,14 +65,14 @@ app.post('/api/v1/signin', (req, res) => __awaiter(void 0, void 0, void 0, funct
 app.post('/api/v1/content', middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const title = req.body.title;
     const link = req.body.link;
-    const tags = req.body.tags;
     const type = req.body.type;
+    const description = req.body.description;
     try {
         yield db_1.ContentModel.create({
             title,
             link,
-            tags: [],
             type,
+            description,
             // @ts-ignore
             userId: req.userId
         });
@@ -85,15 +85,34 @@ app.post('/api/v1/content', middleware_1.userMiddleware, (req, res) => __awaiter
         res.status(500).json({ message: 'Internal server error' });
     }
 }));
+// app.get('/api/v1/content', userMiddleware, async (req, res) => {
+//   // @ts-ignore
+//   const userId = req.userId
+//   const content = await ContentModel.find({
+//     userId
+//   }).populate('userId', 'username')
+//   res.json({
+//     content
+//   })
+// })
 app.get('/api/v1/content', middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // @ts-ignore
-    const userId = req.userId;
-    const content = yield db_1.ContentModel.find({
-        userId
-    }).populate('userId', 'username');
-    res.json({
-        content
-    });
+    try {
+        const { type } = req.query;
+        // Use a flexible object type to allow adding keys dynamically
+        const query = {
+            // @ts-ignore
+            userId: req.userId
+        };
+        if (type) {
+            query.type = type; // ✅ No TS error now
+        }
+        const content = yield db_1.ContentModel.find(query);
+        res.json({ content });
+    }
+    catch (error) {
+        console.error("❌ Error fetching content:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 }));
 app.delete('/api/v1/content', middleware_1.userMiddleware, (req, res) => {
     const contentId = req.body.contentId;
