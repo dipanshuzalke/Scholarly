@@ -3,7 +3,7 @@ import { Card } from '../../components/Card';
 import { FolderIcon } from 'lucide-react'; // Or use your custom OtherIcon
 
 export const OtherPage = () => {
-  const { contents } = useContent("youtube");
+  const { contents } = useContent("other");
 
   if (!contents || contents.length === 0) {
     return (
@@ -24,7 +24,7 @@ export const OtherPage = () => {
         Catch-all space for content that doesn’t belong to a specific platform.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="w-full h-full flex items-start gap-6 flex-wrap">
         {contents
           .filter(({ type }) => type === "other") // ✅ Ensure only notes are displayed
           .map(({ _id, type, link, title, description }) => (

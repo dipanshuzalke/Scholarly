@@ -24,7 +24,7 @@ export const LinkedinPage = () => {
         Save valuable career content, posts, and insights from LinkedIn to grow your professional knowledge.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="w-full h-full flex items-start gap-6 flex-wrap">
         {contents
           .filter(({ type }) => type === "linkedin") // ✅ Ensure only notes are displayed
           .map(({ _id, type, link, title, description }) => (

@@ -9,21 +9,22 @@ export function Dashboard () {
 
   return (
     <>
-      <div className='flex min-h-screen'>
-        {/* Sidebar - Fixed on the Left */}
-        <Sidebar />
+<div className="flex min-h-screen relative">
+  {/* Sidebar - Fixed and hidden on mobile, visible on md+ */}
+  <Sidebar />
 
-        {/* Main Content (Navbar + Page Content) */}
-        <div className='flex flex-col flex-1 ml-64'>
-          {/* Navbar - Fixed at the top */}
-          <Navbar />
+  {/* Main Content (takes full width on mobile, pushed on md+) */}
+  <div className="flex flex-col flex-1 md:ml-72 w-full">
+    {/* Navbar */}
+    <Navbar />
 
-          {/* Content Area */}
-          <div className='pl-6 pr-4 bg-gray-50 min-h-screen ml-5'>
-            <Outlet />
-          </div>
-        </div>
-      </div>
+    {/* Content Area */}
+    <div className="pl-4 pr-4 bg-gray-100 flex-1">
+      <Outlet />
+    </div>
+  </div>
+</div>
+
     </>
   )
 }

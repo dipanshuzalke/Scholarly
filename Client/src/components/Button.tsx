@@ -12,7 +12,7 @@ interface ButtonProps {
 }
 
 const variantStyles = {
-  primary: 'bg-[#1034A6] text-[#BCD2E8]',
+  primary: 'bg-[#1034A6] text-white',
   secondary: 'bg-[#BCD2E8] text-[#1034A6]'
 }
 

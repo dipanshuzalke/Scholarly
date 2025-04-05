@@ -4,6 +4,7 @@ import { Button } from "./Button";
 import { Input } from "./Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 // ✅ Custom icon imports
 import { YoutubeIcon } from "../icons/YoutubeIcon";
@@ -64,7 +65,7 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
     const title = titleRef.current?.value;
     const link = linkRef.current?.value;
     const description = descriptionRef.current?.value;
-
+  
     try {
       await axios.post(`${BACKEND_URL}/api/v1/content`, {
         title,
@@ -76,10 +77,15 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
           "Authorization": localStorage.getItem("token")
         }
       });
-
+  
+      toast.success('Content added!', {
+        duration: 3000
+      });
+  
       onClose();
     } catch (err) {
       console.error("Error creating content:", err);
+      toast.error('❌ Failed to add content. Try again.');
     }
   }
 

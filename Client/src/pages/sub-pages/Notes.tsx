@@ -22,8 +22,10 @@ export const NotesPage = () => {
   return (
     <div className="px-4 py-6">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">📓 Notes</h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <p className="text-gray-600 mb-6">
+        You're notes, summaries, and resources all in one place. Use this space to jot down your thoughts, save important information, or summarize what you’ve learned.
+      </p>
+      <div className="w-full h-full flex items-start gap-6 flex-wrap">
         {filteredNotes.map(({ _id, type, link, title, description }) => (
           <Card
             key={_id}

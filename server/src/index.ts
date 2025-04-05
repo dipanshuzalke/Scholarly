@@ -5,7 +5,6 @@ import { JWT_PASSWORD } from './config'
 import { userMiddleware } from './middleware'
 import { random } from './utils'
 import cors from 'cors'
-import mongoose from 'mongoose'
 
 const app = express()
 app.use(express.json())
