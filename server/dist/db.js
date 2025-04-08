@@ -32,9 +32,13 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkModel = exports.ContentModel = exports.UserModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
+const validator_1 = __importDefault(require("validator"));
 mongoose_1.default.connect("mongodb+srv://dipanshuzalke:i68IrAukJyDQPbn1@cluster0.ujek8.mongodb.net/brainly")
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.error("MongoDB connection error:", err));
@@ -46,7 +50,14 @@ exports.UserModel = (0, mongoose_1.model)('User', UserSchema);
 const ContentSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
     description: String,
-    link: { type: String },
+    link: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (value) => validator_1.default.isURL(value, { require_protocol: true }),
+            message: (props) => `"${props.value}" is not a valid URL!`
+        }
+    },
     // tags: [{type: mongoose.Types.ObjectId, ref: 'Tag'}],
     type: { type: String, required: true },
     userId: { type: mongoose_1.default.Types.ObjectId, ref: 'User', required: true }

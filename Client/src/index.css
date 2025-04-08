@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(#5a47ce, #232323 80%);
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.outline-text {
+  -webkit-text-stroke: 1px white;
+}

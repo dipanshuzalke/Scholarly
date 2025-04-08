@@ -1,4 +1,5 @@
 import mongoose, { model, Schema } from 'mongoose'
+import validator from 'validator';
 
 mongoose.connect("mongodb+srv://dipanshuzalke:i68IrAukJyDQPbn1@cluster0.ujek8.mongodb.net/brainly")
 .then(() => console.log("MongoDB connected"))
@@ -14,7 +15,15 @@ export const UserModel = model('User', UserSchema)
 const ContentSchema = new Schema({
   title: { type: String, required: true },
   description: String,
-  link: { type: String },
+  link: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (value: string) => validator.isURL(value, { require_protocol: true }),
+      message: (props: any) => `"${props.value}" is not a valid URL!`
+    }
+  },
+  
   // tags: [{type: mongoose.Types.ObjectId, ref: 'Tag'}],
   type: { type: String, required: true },
   userId: { type: mongoose.Types.ObjectId, ref: 'User', required: true }
